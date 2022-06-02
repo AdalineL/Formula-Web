@@ -1,0 +1,58 @@
+{
+  "name": "react-monaco-editor-browser-example",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Monaco Editor for React",
+  "scripts": {
+    "start": "webpack serve --hot --inline --progress --port 8886"
+  },
+  "authors": [
+    "Leon Shi <superRaytin@gmail.com>",
+    "Dominik Moritz <domoritz@gmail.com>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "monaco-editor-webpack-plugin": "^7.0.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^3.11.2",
+    "@types/react": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "monaco-editor": "^0.33.0",
+    "prettier": "^2.6.2",
+    "react": "^18.0.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "file-loader": "^6.2.0",
+    "nodemon": "^2.0.16",
+    "path": "^0.12.7",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-monaco-editor": "latest",
+    "stream": "^0.0.2",
+    "web-tree-sitter": "^0.20.5",
+    "ws": "^8.7.0",
+    "@types/react": ">=17 <= 18",
+    "monaco-editor": "^0.33.0",
+    "prop-types": "^15.8.1"
+  }
+}
