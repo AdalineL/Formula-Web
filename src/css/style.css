@@ -1,0 +1,17 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  height: 400px;
+  /* border-style: groove; */
+}
+.item1 {
+  border-style: groove;
+}
+.item2 {
+  border-style: groove;
+}
+#app 
+{
+  height: 100%;
+}
