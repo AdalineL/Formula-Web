@@ -1,35 +1,46 @@
-// import React from 'react'
+import React, { useRef } from "react";
+import ReactDOM from "react-dom";
 
-// const Message = () => {
-//   return (
-//     <div className="content">
-//       <h1>Rexpack</h1>
-//       <p className="description">React, Express, and Webpack Boilerplate Application</p>
-//       <div className="awful-selfie"></div>
-//     </div>
-//   )
-// }
+import Editor from "@monaco-editor/react";
+import { getSyntheticLeadingComments } from "typescript";
 
-// export default Message
+function TextEditor() {
+  const editorRef = useRef(null);
 
-// console.log('monaco-editor'); 
+  function handleEditorDidMount(editor, monaco) {
+    editorRef.current = editor;
+  }
 
-// import React from "react";
-// import ReactDOM from "react-dom";
+  function callWebSocket() {
+    alert(editorRef.current.getValue());
 
-// import Editor from "@monaco-editor/react";
+    const addMessage = (message) => {
+      getElement("response").appendChild(document.createTextNode(message));
+    };
 
+    var ws = new WebSocket("ws://localhost:3030");
 
+    ws.onopen = () => {
+      console.log("texteditor: Now connected");
+      ws.send(editorRef.current.getValue());
+      getElement("message").value = "";
+    };
+  }
 
-// function App() {
-//   return (
-//    <Editor
-//      height="90vh"
-//      defaultLanguage="javascript"
-//      defaultValue="// some comment"
-//    />
-//   );
-// }
+  return (
+    <>
+      <button onClick={callWebSocket}>Send value</button>
+      <Editor
+        height="90vh"
+        defaultLanguage="javascript"
+        defaultValue="// some comment"
+        onMount={handleEditorDidMount}
+      />
+    </>
+  );
+}
 
 // const rootElement = document.getElementById("app");
-// ReactDOM.render(<App />, rootElement);
+// ReactDOM.render(<TextEditor />, rootElement);
+
+export default TextEditor;
