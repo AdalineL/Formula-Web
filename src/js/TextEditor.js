@@ -45,6 +45,24 @@ function TextEditor() {
                                  c is Component, Mapping(c, p) }), s > 100.
   }`;
 
+  // uncomment to get a wasm error in console
+  // (async () => {
+  //   Theme.load(require("/src/misc/theme.json")); //"monaco-tree-sitter/themes/tomorrow")); //to use the 'tomorrow' theme
+
+  //   await Parser.init();
+  //   const parser = new Parser();
+  //   const Lang = await Parser.Language.load(
+  //     "/src/misc/tree-sitter-formula.wasm"
+  //   );
+  //   parser.setLanguage(Lang);
+
+  //   const language = new Language(require("/src/misc/grammar.json"));
+  //   await language.init(
+  //     "http://localhost:3030/tree-sitter-formula.wasm",
+  //     Parser
+  //   );
+  // })();
+
   return (
     <>
       <button onClick={callWebSocket}>Send value</button>

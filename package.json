@@ -24,6 +24,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-monaco-editor": "^0.48.0",
+    "tree-sitter-wasm-prebuilt": "^0.0.3",
     "web-tree-sitter": "^0.20.5"
   },
   "devDependencies": {
