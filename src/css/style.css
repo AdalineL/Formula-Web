@@ -3,7 +3,6 @@
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   height: 400px;
-  /* border-style: groove; */
 }
 .item1 {
   border-style: groove;
