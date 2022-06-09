@@ -12,36 +12,22 @@
         <div class="item1" id="app">
         </div>
         <div class="item2">
-          <input id="name"/>
-          <textarea id="message" ></textarea>
-          <button onClick="fire()">Send</button>
-          <div id="messages"></div>
           <textarea id="response" ></textarea>
         </div>
       </div>
 </body>
 <script>
-  const getElement = (id) => document.getElementById(id);
-const addMessage = (message) => {
-    // const pTag = document.createElement('p');
-    // pTag.appendChild(document.createTextNode(message));
-    getElement('response').appendChild(document.createTextNode(message));
-    // getElement('messages').appendChild(pTag);
-};
-const ws = new WebSocket('ws://localhost:3030');
-ws.onopen = () => { 
-    console.log('Now connected'); 
-};
-ws.onmessage = (event) => {
-    const messages = JSON.parse(event.data);  //isBinary ? data : data.toString();
-    messages.forEach(addMessage);
-};
-const fire = () => {
-    const username = getElement('name').value || '???';
-    console.log(username);
-    // ws.send('username:', getElement('message').value);
-    ws.send(`${getElement('name').value}: ${getElement('message').value}\n`);
-    getElement('message').value = '';
-};
+    const getElement = (id) => document.getElementById(id);
+    const addMessage = (message) => {
+        getElement('response').appendChild(document.createTextNode(message));
+    };
+    const ws = new WebSocket('ws://localhost:3030');
+    ws.onopen = () => { 
+        console.log('Now connected'); 
+    };
+    ws.onmessage = (event) => {
+        const messages = JSON.parse(event.data);  
+        messages.forEach(addMessage);
+    };
 </script>
 </html>

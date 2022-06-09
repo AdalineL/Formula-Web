@@ -1,11 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import TextEditor from './js/TextEditor'
-import './css/style.css'
+import React from "react";
+import ReactDOM from "react-dom";
+import TextEditor from "./js/TextEditor";
+import "./css/style.css";
 
-
-
-console.log('monaco-editor'); 
+console.log("monaco-editor");
 
 // ReactDOM.render(
 //   <TextEditor />,
@@ -20,5 +18,6 @@ ReactDOM.render(
   rootElement
 );
 
-if(module.hot) // eslint-disable-line no-undef  
-  module.hot.accept() // eslint-disable-line no-undef  
+if (module.hot)
+  // eslint-disable-line no-undef
+  module.hot.accept(); // eslint-disable-line no-undef
