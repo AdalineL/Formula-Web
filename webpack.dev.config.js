@@ -20,6 +20,14 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.wasm$/,
+        loader: "file-loader",
+        type: "javascript/auto",
+        options: {
+          publicPath: "dist/",
+        },
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: "babel-loader",

@@ -28,6 +28,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.wasm$/,
+        use: { loader: "file-loader" },
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {

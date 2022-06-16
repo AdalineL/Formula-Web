@@ -3,7 +3,8 @@ Monaco Editor integrated with Tree-sitter using React and connected to an Expres
 
 # How to use
 run `yarn install`, `yarn run buildDev`, `yarn run buildProd`, and `yarn start` in your terminal
-open http://localhost:8080/ in your browser
+open http://localhost:8080/ in your browser.
+* (in-progress) run `export NODE_OPTIONS=--openssl-legacy-provider` in terminal if terminal gives an `digital envelope routines::unsupported` error
 
 
 # References
