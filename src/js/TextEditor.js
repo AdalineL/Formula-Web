@@ -12,7 +12,7 @@ import "./patch-fetch.js";
 //Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):
 //and ModuleParseError: Module parse failed: Unexpected character ''
 
-// import * as Parser from "web-tree-sitter";
+import * as Parser from "web-tree-sitter";
 import {
   Language,
   Theme,
