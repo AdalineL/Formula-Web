@@ -29,7 +29,9 @@ socketServer.on("connection", (socketClient) => {
   console.log("Number of clients: ", socketServer.clients.size);
 
   // socketServer.clients.forEach((client) => {
-  const child = spawn("dotnet", []);
+  const child = spawn("dotnet", [
+    "/Users/jiayin/Downloads/formula-dotnet/Src/CommandLine/bin/Debug/net6.0/CommandLine.dll",
+  ]);
 
   socketClient.send(JSON.stringify(messages));
 
