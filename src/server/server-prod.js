@@ -28,7 +28,6 @@ socketServer.on("connection", (socketClient) => {
   console.log("connected");
   console.log("Number of clients: ", socketServer.clients.size);
 
-  // socketServer.clients.forEach((client) => {
   const child = spawn("dotnet", [
     "/Users/jiayin/Downloads/formula-dotnet/Src/CommandLine/bin/Debug/net6.0/CommandLine.dll",
   ]);
@@ -36,8 +35,6 @@ socketServer.on("connection", (socketClient) => {
   socketClient.send(JSON.stringify(messages));
 
   socketClient.on("message", (message) => {
-    // console.log("message: ", message);
-
     //save the variables to 'tmp_file.txt'
     var fs = require("fs");
     var stream = fs.createWriteStream("tmp_file.4ml");
@@ -55,9 +52,13 @@ socketServer.on("connection", (socketClient) => {
     //receive the data from dotnet and save it to a tmp file
     child.stdout.on("data", (data) => {
       messages.push(data.toString());
+      socketServer.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify([data.toString()]));
+        }
+      });
     });
   });
-  // });
 
   socketClient.on("close", (socketClient) => {
     console.log("closed");
