@@ -20,6 +20,7 @@
     "browserify-fs": "^1.0.0",
     "express": "^4.18.1",
     "file-saver": "^2.0.5",
+    "filereader": "^0.10.3",
     "monaco-editor": "^0.33.0",
     "monaco-tree-sitter": "^0.0.5",
     "path": "^0.12.7",
