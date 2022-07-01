@@ -24,25 +24,8 @@ app.listen(PORT, () => {
 
 const wss = new WebSocket.Server({ port: 3030 });
 
-// wss.getUniqueID = function () {
-//   function s4() {
-//     return Math.floor((1 + Math.random()) * 0x10000)
-//       .toString(16)
-//       .substring(1);
-//   }
-//   return s4() + s4() + "-" + s4();
-// };
-
-var CLIENTS = [];
-var id;
-
 const messages = ["\n"];
 wss.on("connection", (ws, req) => {
-  // id = Math.random();
-  // console.log("connection is established : " + id);
-  // CLIENTS[id] = ws;
-  // CLIENTS.push(ws);
-
   console.log("connected");
   console.log("Number of clients: ", wss.clients.size);
 
@@ -71,31 +54,7 @@ wss.on("connection", (ws, req) => {
 
       //receive the data from dotnet and save it to a tmp file
       child.stdout.on("data", (data) => {
-        if (data.toString().startsWith("Error")) {
-          var sendingError = {
-            type: "error",
-            text: data.toString(),
-          };
-
-          messages.push(JSON.stringify(sendingError));
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify(sendingError));
-            }
-          });
-        } else {
-          var sendingResult = {
-            type: "result",
-            text: data.toString(),
-          };
-
-          messages.push(JSON.stringify(sendingResult));
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify(sendingResult));
-            }
-          });
-        }
+        resultOrError(data);
       });
     } else if (msg.type == "user") {
       //send 'load file' to dotnet
@@ -103,45 +62,39 @@ wss.on("connection", (ws, req) => {
       child.stdin.end();
 
       //receive the data from dotnet and save it to a tmp file
-      // child.stdout.on("data", (data) => {
-      //   messages.push(data.toString());
-      //   wss.clients.forEach((client) => {
-      //     if (client.readyState === WebSocket.OPEN) {
-      //       client.send(JSON.stringify([data.toString()]));
-      //     }
-      //   });
-      // });
-
-      //receive the data from dotnet and save it to a tmp file
       child.stdout.on("data", (data) => {
-        if (data.toString().startsWith("Error")) {
-          var sendingInputError = {
-            type: "error",
-            text: data.toString(),
-          };
-
-          messages.push(JSON.stringify(sendingInputError));
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify(sendingInputError));
-            }
-          });
-        } else {
-          var sendingInputResult = {
-            type: "result",
-            text: data.toString(),
-          };
-
-          messages.push(JSON.stringify(sendingInputResult));
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify(sendingInputResult));
-            }
-          });
-        }
+        resultOrError(data);
       });
     }
   });
+
+  function resultOrError(data) {
+    if (data.toString().startsWith("Error")) {
+      var sendingError = {
+        type: "error",
+        text: data.toString(),
+      };
+
+      messages.push(JSON.stringify(sendingError));
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(sendingError));
+        }
+      });
+    } else {
+      var sendingResult = {
+        type: "result",
+        text: data.toString(),
+      };
+
+      messages.push(JSON.stringify(sendingResult));
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(sendingResult));
+        }
+      });
+    }
+  }
 
   ws.on("close", (ws) => {
     console.log("closed");
