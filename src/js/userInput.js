@@ -20,7 +20,12 @@ function userInput() {
     var ws = new WebSocket("ws://localhost:3030");
 
     ws.onopen = () => {
-      ws.send(document.getElementById("input").value);
+      var msg = {
+        type: "user",
+        text: document.getElementById("input").value,
+      };
+      ws.send(JSON.stringify(msg));
+      // ws.send(document.getElementById("input").value);
     };
   }
 

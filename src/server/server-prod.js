@@ -53,32 +53,50 @@ wss.on("connection", (ws, req) => {
   ws.send(JSON.stringify(messages));
 
   ws.on("message", (message) => {
-    //save the variables to 'tmp_file.txt'
-    var fs = require("fs");
-    var stream = fs.createWriteStream("tmp_file.4ml");
-    stream.once("open", function (fd) {
-      stream.write(message);
-      stream.end();
-    });
-
-    //send 'load file' to dotnet
-    child.stdin.write(
-      "load /Users/jiayin/Downloads/react-monaco-tree-sitter/tmp_file.4ml"
-    );
-    child.stdin.end();
-
-    //receive the data from dotnet and save it to a tmp file
-    child.stdout.on("data", (data) => {
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          // if (CLIENTS[id] == ws) {
-          client.send(JSON.stringify([data.toString()]));
-          // }
-        }
-
-        // console.log("Client.ID: " + client.id);
+    var msg = JSON.parse(message);
+    if (msg.type == "editor") {
+      //save the variables to 'tmp_file.txt'
+      var fs = require("fs");
+      var stream = fs.createWriteStream("tmp_file.4ml");
+      stream.once("open", function (fd) {
+        stream.write(msg.text);
+        stream.end();
       });
-    });
+
+      //send 'load file' to dotnet
+      child.stdin.write(
+        "load /Users/jiayin/Downloads/react-monaco-tree-sitter/tmp_file.4ml"
+      );
+      child.stdin.end();
+
+      //receive the data from dotnet and save it to a tmp file
+      child.stdout.on("data", (data) => {
+        messages.push(data.toString());
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            // if (CLIENTS[id] == ws) {
+            client.send(JSON.stringify([data.toString()]));
+            // }
+          }
+
+          // console.log("Client.ID: " + client.id);
+        });
+      });
+    } else if (msg.type == "user") {
+      //send 'load file' to dotnet
+      child.stdin.write(msg.text);
+      child.stdin.end();
+
+      //receive the data from dotnet and save it to a tmp file
+      child.stdout.on("data", (data) => {
+        messages.push(data.toString());
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify([data.toString()]));
+          }
+        });
+      });
+    }
   });
 
   ws.on("close", (ws) => {

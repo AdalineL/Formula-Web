@@ -68,7 +68,11 @@ function TextEditor() {
     ws.onopen = () => {
       console.log("texteditor: Now connected");
       //send monaco editor values to server
-      ws.send(editorRef.current.getValue());
+      var msg = {
+        type: "editor",
+        text: editorRef.current.getValue(),
+      };
+      ws.send(JSON.stringify(msg));
     };
   }
 
