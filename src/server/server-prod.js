@@ -71,16 +71,31 @@ wss.on("connection", (ws, req) => {
 
       //receive the data from dotnet and save it to a tmp file
       child.stdout.on("data", (data) => {
-        messages.push(data.toString());
-        wss.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            // if (CLIENTS[id] == ws) {
-            client.send(JSON.stringify([data.toString()]));
-            // }
-          }
+        if (data.toString().startsWith("Error")) {
+          var sendingError = {
+            type: "error",
+            text: data.toString(),
+          };
 
-          // console.log("Client.ID: " + client.id);
-        });
+          messages.push(JSON.stringify(sendingError));
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify(sendingError));
+            }
+          });
+        } else {
+          var sendingResult = {
+            type: "result",
+            text: data.toString(),
+          };
+
+          messages.push(JSON.stringify(sendingResult));
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify(sendingResult));
+            }
+          });
+        }
       });
     } else if (msg.type == "user") {
       //send 'load file' to dotnet
@@ -88,13 +103,42 @@ wss.on("connection", (ws, req) => {
       child.stdin.end();
 
       //receive the data from dotnet and save it to a tmp file
+      // child.stdout.on("data", (data) => {
+      //   messages.push(data.toString());
+      //   wss.clients.forEach((client) => {
+      //     if (client.readyState === WebSocket.OPEN) {
+      //       client.send(JSON.stringify([data.toString()]));
+      //     }
+      //   });
+      // });
+
+      //receive the data from dotnet and save it to a tmp file
       child.stdout.on("data", (data) => {
-        messages.push(data.toString());
-        wss.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify([data.toString()]));
-          }
-        });
+        if (data.toString().startsWith("Error")) {
+          var sendingInputError = {
+            type: "error",
+            text: data.toString(),
+          };
+
+          messages.push(JSON.stringify(sendingInputError));
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify(sendingInputError));
+            }
+          });
+        } else {
+          var sendingInputResult = {
+            type: "result",
+            text: data.toString(),
+          };
+
+          messages.push(JSON.stringify(sendingInputResult));
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify(sendingInputResult));
+            }
+          });
+        }
       });
     }
   });
