@@ -5,14 +5,24 @@ function userInput() {
   const addMessage = (message) => {
     getElement("response").appendChild(document.createTextNode(message));
   };
+  const addError = (message) => {
+    getElement("error").appendChild(document.createTextNode(message));
+  };
   const ws = new WebSocket("ws://localhost:3030");
   ws.onopen = () => {
     console.log("Now connected");
   };
 
   ws.onmessage = (event) => {
+    // console.log("error");
+    // console.log(data.toString());
+    // console.log(sendingError);
     const messages = JSON.parse(event.data);
-    messages.forEach(addMessage);
+    if (messages.type == "result") {
+      messages.forEach(addMessage(messages.text));
+    } else if (messages.type == "error") {
+      messages.forEach(addError(messages.text));
+    }
   };
 
   //send user input from textfield
@@ -35,6 +45,8 @@ function userInput() {
       <button onClick={sendInput}>Send input</button>
       <p>client input area</p>
       <textarea id="input"></textarea>
+      <p>error logs</p>
+      <textarea id="error"></textarea>
     </>
   );
 }
