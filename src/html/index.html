@@ -11,33 +11,13 @@
     <div class="grid-container">
         <div class="item1" id="app">
         </div>
-        <div class="item2">
-          <textarea id="response" ></textarea>
-
+        <div class="item2" id ="secondHalf">  
+            <!-- create terminal here -->
         </div>
       </div>
 </body>
 <script>
-    const getElement = (id) => document.getElementById(id);
-    const addMessage = (message) => {
-        getElement('response').appendChild(document.createTextNode(message));
-    };
-    const ws = new WebSocket('ws://localhost:3030');
-    ws.onopen = () => { 
-        console.log('Now connected'); 
-    };
 
-    ws.onmessage = (event) => {
-        // getElement('response').value = '';
-    // self.addEventListener('push', function(event) {
-    //     if (event.data) {   
-    //         console.log('This push event has data: ', event.data.text());
-    //     } else {
-    //         console.log('This push event has no data.');
-    //     }
-    // });
-        const messages = JSON.parse(event.data);  
-        messages.forEach(addMessage);
-    };
+
 </script>
 </html>

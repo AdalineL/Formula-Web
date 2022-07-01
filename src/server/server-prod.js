@@ -1,5 +1,6 @@
 import path from "path";
 import express from "express";
+import { v4 as uuid } from "uuid";
 
 const { spawn } = require("child_process");
 
@@ -21,20 +22,37 @@ app.listen(PORT, () => {
   console.log("Press Ctrl+C to quit.");
 });
 
-const socketServer = new WebSocket.Server({ port: 3030 });
+const wss = new WebSocket.Server({ port: 3030 });
+
+// wss.getUniqueID = function () {
+//   function s4() {
+//     return Math.floor((1 + Math.random()) * 0x10000)
+//       .toString(16)
+//       .substring(1);
+//   }
+//   return s4() + s4() + "-" + s4();
+// };
+
+var CLIENTS = [];
+var id;
 
 const messages = ["\n"];
-socketServer.on("connection", (socketClient) => {
+wss.on("connection", (ws, req) => {
+  // id = Math.random();
+  // console.log("connection is established : " + id);
+  // CLIENTS[id] = ws;
+  // CLIENTS.push(ws);
+
   console.log("connected");
-  console.log("Number of clients: ", socketServer.clients.size);
+  console.log("Number of clients: ", wss.clients.size);
 
   const child = spawn("dotnet", [
     "/Users/jiayin/Downloads/formula-dotnet/Src/CommandLine/bin/Debug/net6.0/CommandLine.dll",
   ]);
 
-  socketClient.send(JSON.stringify(messages));
+  ws.send(JSON.stringify(messages));
 
-  socketClient.on("message", (message) => {
+  ws.on("message", (message) => {
     //save the variables to 'tmp_file.txt'
     var fs = require("fs");
     var stream = fs.createWriteStream("tmp_file.4ml");
@@ -51,17 +69,20 @@ socketServer.on("connection", (socketClient) => {
 
     //receive the data from dotnet and save it to a tmp file
     child.stdout.on("data", (data) => {
-      messages.push(data.toString());
-      socketServer.clients.forEach((client) => {
+      wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
+          // if (CLIENTS[id] == ws) {
           client.send(JSON.stringify([data.toString()]));
+          // }
         }
+
+        // console.log("Client.ID: " + client.id);
       });
     });
   });
 
-  socketClient.on("close", (socketClient) => {
+  ws.on("close", (ws) => {
     console.log("closed");
-    console.log("Number of clients: ", socketServer.clients.size);
+    console.log("Number of clients: ", wss.clients.size);
   });
 });
