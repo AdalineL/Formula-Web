@@ -6,7 +6,6 @@
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
-    "buildDev": "rm -rf dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
     "buildProd": "rm -rf dist && webpack --mode production --config webpack.server.config.js && webpack --mode production --config webpack.prod.config.js",
     "start": "node ./dist/server.js"
   },
@@ -32,7 +31,9 @@
     "tree-sitter-wasm-prebuilt": "^0.0.3",
     "uuid": "^8.3.2",
     "web-tree-sitter": "^0.20.5",
-    "xterm": "^4.18.0",
+    "xterm": "^4.19.0",
+    "xterm-addon-attach": "^0.6.0",
+    "xterm-addon-fit": "^0.5.0",
     "xterm-for-react": "^1.0.4"
   },
   "devDependencies": {

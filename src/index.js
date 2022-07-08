@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 import TextEditor from "./js/TextEditor";
 import UserInput from "./js/userInput";
 import "./css/style.css";
+import "./css/xterm.css";
 
-console.log("monaco-editor");
+console.log("index");
 
 ReactDOM.render(
   <React.StrictMode>
