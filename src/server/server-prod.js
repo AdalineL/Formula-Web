@@ -1,9 +1,8 @@
 import path from "path";
+import os from "os";
 import express from "express";
-import { v4 as uuid } from "uuid";
 
 const { spawn } = require("child_process");
-
 const WebSocket = require("ws");
 
 const app = express(),
@@ -23,23 +22,36 @@ app.listen(PORT, () => {
 });
 
 const wss = new WebSocket.Server({ port: 3030 });
+const clients = new Map();
 
-const messages = ["\n"];
 wss.on("connection", (ws, req) => {
-  console.log("connected");
-  console.log("Number of clients: ", wss.clients.size);
-
+  console.log("Client connected.");
+  
   const child = spawn("dotnet", [
-    "/Users/jiayin/Downloads/formula-dotnet/Src/CommandLine/bin/Debug/net6.0/CommandLine.dll",
+    "/Users/daniel/work/formula/formula-dotnet/Src/CommandLine/bin/Debug/net6.0/CommandLine.dll"
+    //"/Users/jiayin/Downloads/formula-dotnet/Src/CommandLine/bin/Debug/net6.0/CommandLine.dll",
   ]);
 
-  ws.send(JSON.stringify(messages));
+  clients.set(ws, child); // store child process in map
+
+  child.on('exit', function() {
+    console.log("dotnet child process exited.");
+  })
+
+  child.stdout.on("data", (data) => {
+    resultOrError(data, ws);
+  });
+
+  ws.on("close", (ws) => {
+    console.log("Web socket closed. Current number of clients: ", wss.clients.size);
+  });
 
   ws.on("message", (message) => {
     var msg = JSON.parse(message);
+    var child = clients.get(ws); // retrieve child process from map
+
     if (msg.type == "editor") {
-      //save the variables to 'tmp_file.txt'
-      var fs = require("fs");
+      var fs = require("fs");    
       var stream = fs.createWriteStream("tmp_file.4ml");
       stream.once("open", function (fd) {
         stream.write(msg.text);
@@ -48,56 +60,31 @@ wss.on("connection", (ws, req) => {
 
       //send 'load file' to dotnet
       child.stdin.write(
-        "load /Users/jiayin/Downloads/react-monaco-tree-sitter/tmp_file.4ml"
-      );
-      child.stdin.end();
-
-      //receive the data from dotnet and save it to a tmp file
-      child.stdout.on("data", (data) => {
-        resultOrError(data);
-      });
+        //"load /Users/jiayin/Downloads/react-monaco-tree-sitter/tmp_file.4ml"
+        "load /Users/daniel/git/formula-web/tmp_file.4ml\n"
+      );    
     } else if (msg.type == "user") {
-      //send 'load file' to dotnet
-      child.stdin.write(msg.text);
-      child.stdin.end();
-
-      //receive the data from dotnet and save it to a tmp file
-      child.stdout.on("data", (data) => {
-        resultOrError(data);
-      });
+      console.log("Sending message to dotnet: ", msg.text);
+      child.stdin.write(msg.text + "\n");
     }
-  });
-
-  function resultOrError(data) {
-    if (data.toString().startsWith("Error")) {
-      var sendingError = {
-        type: "error",
-        text: data.toString(),
-      };
-
-      messages.push(JSON.stringify(sendingError));
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(sendingError));
-        }
-      });
-    } else {
-      var sendingResult = {
-        type: "result",
-        text: data.toString(),
-      };
-
-      messages.push(JSON.stringify(sendingResult));
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(sendingResult));
-        }
-      });
-    }
-  }
-
-  ws.on("close", (ws) => {
-    console.log("closed");
-    console.log("Number of clients: ", wss.clients.size);
   });
 });
+
+function resultOrError(data, ws) {
+  if (data.toString().startsWith("Error")) {
+    var sendingError = {
+      type: "error",
+      text: data.toString(),
+    };
+
+    ws.send(JSON.stringify(sendingError));
+  } else {
+    var sendingResult = {
+      type: "result",
+      text: data.toString(),
+    };
+
+    console.log("Sending message from dotnet to ws: ", sendingResult);
+    ws.send(JSON.stringify(sendingResult));
+  }
+}
