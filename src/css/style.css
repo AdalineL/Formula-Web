@@ -1,3 +1,8 @@
+/** 
+ *  @fileoverview Arranges the page so that it is item1 on the left side
+ *  and item2 on the right side
+ */
+
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr;

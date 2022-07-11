@@ -1,3 +1,7 @@
+/** 
+ *  @fileoverview CSS for Xterm.js
+ *  got from [here] (https://github.com/xtermjs/xterm.js/blob/master/css/xterm.css)
+ */
 
 .xterm {
     cursor: text;

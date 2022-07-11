@@ -1,25 +1,29 @@
+/**
+ *  @fileoverview Render the react components into their
+ *  respective elements located in index.html
+ */
+
 import React from "react";
 import ReactDOM from "react-dom";
-import TextEditor from "./js/TextEditor";
-import UserInput from "./js/userInput";
+import EditorArea from "./js/EditorArea";
+import TerminalArea from "./js/TerminalArea";
 import "./css/style.css";
 import "./css/xterm.css";
 
-console.log("index");
-
+//render the EditorArea react component into the "editor-area" div
 ReactDOM.render(
   <React.StrictMode>
-    <TextEditor />
+    <EditorArea />
   </React.StrictMode>,
-  document.getElementById("app")
-);
-ReactDOM.render(
-  <React.StrictMode>
-    <UserInput />
-  </React.StrictMode>,
-  document.getElementById("secondHalf")
+  document.getElementById("editor-area")
 );
 
-if (module.hot)
-  // eslint-disable-line no-undef
-  module.hot.accept(); // eslint-disable-line no-undef
+//render the TerminalArea react component into the "terminal-area" div
+ReactDOM.render(
+  <React.StrictMode>
+    <TerminalArea />
+  </React.StrictMode>,
+  document.getElementById("terminal-area")
+);
+
+if (module.hot) module.hot.accept();

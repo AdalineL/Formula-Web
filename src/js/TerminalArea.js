@@ -1,25 +1,22 @@
+/**
+ *  @fileoverview Creates the functionality for the terminal area.
+ */
+
 import React, { useRef } from "react";
-const { ws } = require("./configSocket.js");
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
-import { AttachAddon } from "xterm-addon-attach";
 
-// Xterm.js
-// let term = new Terminal();
+const { ws } = require("./configSocket.js"); //get the ws connection initialized in configSocket.js
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   term.open(document.getElementById("terminal"));
-//   term.write("It works!");
-// });
+//initialize Xterm.js
+let term = new Terminal();
 
-//to attach WebSocket stream to Xterm.js
-// const socket = new WebSocket('wss://docker.example.com/containers/mycontainerid/attach/ws');
-// const attachAddon = new AttachAddon(socket);
-// change to separate file for export
+document.addEventListener("DOMContentLoaded", function () {
+  term.open(document.getElementById("terminal"));
+});
 
-// import { ws } from "./configSocket.js";
-
-function userInput() {
+//the main functionality of the terminal area
+function TerminalArea() {
   //helper function for getting an element
   const getElement = (id) => document.getElementById(id);
 
@@ -33,45 +30,30 @@ function userInput() {
     getElement("error").appendChild(document.createTextNode(message));
   };
 
-  // const ws = new WebSocket("ws://localhost:3030");
-  //open websocket connection
-  // ws.onopen = () => {
-  //   console.log("userInput: connected");
-  // };
-
-  //client side receives a message from the server
+  //function for when ws receives a message from the server
   ws.onmessage = (event) => {
     const messages = JSON.parse(event.data);
     //send to responses section if it is a 'result' type of messages
     if (messages.type == "result") {
-      // messages.forEach(addMessage(messages.text));
+      term.write(messages.text); //write the message to the terminal
       addMessage(messages.text);
     }
     //send to error section if it is a 'error' type of message
     else if (messages.type == "error") {
-      // messages.forEach(addError(messages.text));
       addError(messages.text);
     }
   };
 
-  //send user input from textfield
+  //function to send user input values to the server via WebSockets
   function sendInput() {
-    // var ws = new WebSocket("ws://localhost:3030");
-    // console.log("sendInput");
-
-    //when the websocket connection opens
-    // ws.onopen = () => {
-    // console.log("sendinput onopen");
     var msg = {
       type: "user",
       text: document.getElementById("input").value,
     };
     ws.send(JSON.stringify(msg));
-    console.log(JSON.stringify(msg));
-    // ws.send(document.getElementById("input").value);
-    // };
   }
 
+  //return the html for the terminal area
   return (
     <>
       <textarea id="response"></textarea>
@@ -85,4 +67,4 @@ function userInput() {
   );
 }
 
-export default userInput;
+export default TerminalArea;
