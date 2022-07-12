@@ -85,6 +85,7 @@ wss.on("connection", (ws, req) => {
     //else if the message is from the terminal area
     else if (msg.type == "user") {
       //send user command to formula-dotnet child process
+      console.log("received terminal input: ", message.text);
       child.stdin.write(msg.text + "\n");
     }
   });
