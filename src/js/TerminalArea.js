@@ -12,7 +12,9 @@ const { ws } = require("./configSocket.js"); //get the ws connection initialized
 var curr_input = ""; //var to keep track of user input in the terminal
 
 var term = new Terminal({
+  //cursor and '\r' for every new line
   cursorBlink: "block",
+  convertEol: true,
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -24,6 +26,7 @@ term.onKey((key) => {
   const char = key.domEvent.key;
   //if 'enter' send curr_input to server
   if (char === "Enter") {
+    term.write("\r\n");
     sendTerminalValues();
     curr_input = "";
   }
@@ -52,32 +55,18 @@ function sendTerminalValues() {
 
 //the main functionality of the terminal area
 function TerminalArea() {
-  //helper function for getting an element
-  const getElement = (id) => document.getElementById(id);
-
-  //helper function to add error message to error section
-  const addError = (message) => {
-    getElement("error").appendChild(document.createTextNode(message));
-  };
-
   //function for when ws receives a message from the server
   ws.onmessage = (event) => {
     const messages = JSON.parse(event.data);
     //send to terminal if it is a 'result' type of messages
     if (messages.type == "result") {
-      term.write("\r\n" + messages.text); //write the message to the terminal
-    }
-    //send to error section if it is a 'error' type of message
-    else if (messages.type == "error") {
-      addError(messages.text);
+      term.write(messages.text); //write the message to the terminal
     }
   };
 
   //return the html for the terminal area
   return (
     <>
-      <p>error logs</p>
-      <textarea id="error"></textarea>
       <div id="terminal"></div>
     </>
   );

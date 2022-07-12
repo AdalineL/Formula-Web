@@ -24,6 +24,7 @@ app.listen(PORT, () => {
 });
 
 //initialize the constants
+const fs = require("fs");
 const { spawn } = require("child_process");
 const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: 3030 });
@@ -31,6 +32,10 @@ const clients = new Map();
 
 //function for when the server receives a new connection
 wss.on("connection", (ws, req) => {
+  //vars for temp directory and file content
+  var dir = "";
+  var domain = "";
+
   //notify the console that a new client has connected
   console.log("Client connected.\nNumber of clients now: ", wss.clients.size);
 
@@ -40,7 +45,12 @@ wss.on("connection", (ws, req) => {
     "/Users/jiayin/Downloads/formula-dotnet/Src/CommandLine/bin/Debug/net6.0/CommandLine.dll",
   ]);
 
-  clients.set(ws, child); // store child process in map
+  // store ws and info object (containing child and dir) in a map
+  var info = {
+    child: child,
+    dir: dir,
+  };
+  clients.set(ws, info);
 
   //function for when child process has exited
   child.on("exit", function () {
@@ -55,6 +65,7 @@ wss.on("connection", (ws, req) => {
 
   //function for when a ws connection exits
   ws.on("close", (ws) => {
+    // fs.rmSync(clients.get(ws).dir + "/tmp_file.4ml"); //delete the temp file
     console.log(
       "Client disconnected.\nNumber of clients now: ",
       wss.clients.size
@@ -64,31 +75,29 @@ wss.on("connection", (ws, req) => {
   //function for when ws receives a message from the client side
   ws.on("message", (message) => {
     var msg = JSON.parse(message);
-    var child = clients.get(ws); // retrieve child process from map
+    var child = clients.get(ws).child; // retrieve child process from map
+
+    //make the temp directory
+    clients.get(ws).dir = fs.mkdtempSync(path.join(os.tmpdir(), "formula-"));
 
     //if the message is from the text editor
     if (msg.type == "editor") {
-      //write the values to a temp file
-      var fs = require("fs");
-      var stream = fs.createWriteStream("tmp_file.4ml");
-      stream.once("open", function (fd) {
-        stream.write(msg.text);
-        stream.end();
-      });
+      //update file content
+      domain = "domain D \n{" + msg.text + "\n}\n";
+
+      //write values to a temp file in the temp directory
+      fs.writeFileSync(clients.get(ws).dir + "/tmp_file.4ml", domain);
 
       //send 'load tmp file' command to formula-dotnet child process
-      child.stdin.write(
-        "load /Users/jiayin/Downloads/react-monaco-tree-sitter/tmp_file.4ml\n"
-        // "load /Users/daniel/git/formula-web/tmp_file.4ml\n"
-      );
+      child.stdin.write("load " + clients.get(ws).dir + "/tmp_file.4ml\n");
     }
     //else if the message is from the terminal area
     else if (msg.type == "user") {
       //send user command to formula-dotnet child process
-      console.log("received terminal input: ", message.text);
       child.stdin.write(msg.text + "\n");
     }
   });
+  // fs.rmSync(clients.get(ws).dir + "/tmp_file.4ml");
 });
 
 //helper function for sending results from formula-dotnet to the client side
