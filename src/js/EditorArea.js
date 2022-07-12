@@ -28,21 +28,18 @@ function EditorArea() {
 
   //default code for the text editor
   const formulaCode = `
-  domain Mapping
-  {
     Component ::= new (id: Integer, utilization: Real).
     Processor ::= new (id: Integer).
     Mapping   ::= new (c: Component, p: Processor).
   
     badMapping :- p is Processor,
                   s = sum(0.0, { c.utilization | 
-                                 c is Component, Mapping(c, p) }), s > 100.
-  }`;
+                                 c is Component, Mapping(c, p) }), s > 100.`;
 
   //return the html for the text editor
   return (
     <>
-      <button onClick={sendEditorValues}>Send value</button>
+      <button onClick={sendEditorValues}>Load File</button>
       <Editor
         height="90vh"
         defaultLanguage="javascript"

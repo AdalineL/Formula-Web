@@ -62,6 +62,7 @@ module.exports = {
     fallback: {
       path: false,
       fs: false,
+      // stream: require.resolve("stream-browserify"),
     },
   },
   plugins: [
