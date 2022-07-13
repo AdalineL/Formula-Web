@@ -85,7 +85,7 @@ wss.on("connection", (ws, req) => {
     //if the message is from the text editor
     if (msg.type == "editor") {
       //update file content
-      domain = "domain D \n{" + msg.text + "\n}\n";
+      domain = msg.text + "\n";
 
       //write values to a temp file in the temp directory
       fs.writeFileSync(clients.get(ws).dir + "/tmp_file.4ml", domain);
