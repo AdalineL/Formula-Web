@@ -66,6 +66,8 @@ wss.on("connection", (ws, req) => {
   //function for when a ws connection exits
   ws.on("close", (ws) => {
     // fs.rmSync(clients.get(ws).dir + "/tmp_file.4ml"); //delete the temp file
+    // console.log(clients.get(ws).dir);
+    // fs.rmdir(clients.get(ws).dir, { recursive: true });
     console.log(
       "Client disconnected.\nNumber of clients now: ",
       wss.clients.size
@@ -96,6 +98,7 @@ wss.on("connection", (ws, req) => {
       //send user command to formula-dotnet child process
       child.stdin.write(msg.text + "\n");
     }
+    // console.log(clients.get(ws).dir);
   });
   // fs.rmSync(clients.get(ws).dir + "/tmp_file.4ml");
 });
