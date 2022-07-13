@@ -9,16 +9,27 @@ import { FitAddon } from "xterm-addon-fit";
 const { ws } = require("./configSocket.js"); //get the ws connection initialized in configSocket.js
 
 //initialize Xterm.js
+const fitAddon = new FitAddon();
 var curr_input = ""; //var to keep track of user input in the terminal
 
 var term = new Terminal({
   //cursor and '\r' for every new line
+  cursorBlink: true,
   cursorBlink: "block",
   convertEol: true,
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  //open terminal and resize it to fit its container properly
   term.open(document.getElementById("terminal"));
+  term.loadAddon(fitAddon);
+  fitAddon.fit();
+});
+
+//resize the terminal whenever the window is resized
+addEventListener("resize", (event) => {
+  term.loadAddon(fitAddon);
+  fitAddon.fit();
 });
 
 //User input in terminal
