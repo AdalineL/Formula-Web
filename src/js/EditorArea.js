@@ -18,13 +18,13 @@ function EditorArea() {
   }
 
   //function to send text editor values to the server via WebSockets
-  function sendEditorValues() {
+  document.getElementById("loadFile").onclick = function () {
     var msg = {
       type: "editor",
       text: editorRef.current.getValue(),
     };
     ws.send(JSON.stringify(msg));
-  }
+  };
 
   //default code for the text editor
   const formulaCode = `
@@ -42,7 +42,6 @@ function EditorArea() {
   //return the html for the text editor
   return (
     <>
-      <button onClick={sendEditorValues}>Load File</button>
       <Editor
         height="90vh"
         defaultLanguage="javascript"

@@ -32,6 +32,12 @@ addEventListener("resize", (event) => {
   fitAddon.fit();
 });
 
+//resize the terminal whenever the window is loaded
+window.addEventListener("load", (event) => {
+  term.loadAddon(fitAddon);
+  fitAddon.fit();
+});
+
 //User input in terminal
 term.onKey((key) => {
   const char = key.domEvent.key;
@@ -72,12 +78,17 @@ function TerminalArea() {
     //send to terminal if it is a 'result' type of messages
     if (messages.type == "result") {
       term.write(messages.text); //write the message to the terminal
+    } else {
+      document
+        .getElementById(errorLogs)
+        .appendChild(document.createTextNode(messages.text));
     }
   };
 
   //return the html for the terminal area
   return (
     <>
+      <textarea id="errorLogs" placeholder="Errors will appear here"></textarea>
       <div id="terminal"></div>
     </>
   );
