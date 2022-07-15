@@ -1,0 +1,36 @@
+{
+    "simpleTerms": {
+        "\"domain\"": "type",
+        "\"model\"": "type",
+        "\"transform\"": "type",
+        "\"system\"": "type",
+        "\"machine\"": "type",
+        "\"partial\"": "type",
+        "\"ensures\"": "type",
+        "\"requires\"": "type",
+        "\"conforms\"": "type",
+        "\"includes\"": "type",
+        "\"extends\"": "type",
+        "\"of\"": "type",
+        "\"returns\"": "type",
+        "\"at\"": "type",
+        "\"some\"": "type",
+        "\"atleast\"": "type",
+        "\"atmost\"": "type",
+        "\"initially\"": "type",
+        "\"next\"": "type",
+        "\"property\"": "type",
+        "\"boot\"": "type",
+        "\"no\"": "type",
+        "\"is\"": "type",
+        "\"new\"": "type",
+        "\"inj\"": "type",
+        "\"bij\"": "type",
+        "\"sur\"": "type",
+        "\"fun\"": "type",
+        "\"any\"": "type",
+        
+        "type_identifier": "type"
+    }
+
+}

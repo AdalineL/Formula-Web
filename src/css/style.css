@@ -19,10 +19,18 @@ body {
 
 }
 
+#errorLogs {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 5px;
+  resize: none;
+  outline: none;
+}
+
 @media screen and (max-width: 600px) {
   .column {
     width: 100%;
-    height: 48vh;
+    height: 45vh;
   }
 }
 
@@ -31,10 +39,3 @@ body {
   right: 0;
 }
 
-#errorLogs {
-  width: 100%;
-  height: 30px;
-  margin-bottom: 5px;
-  resize: none;
-  outline: none;
-}
