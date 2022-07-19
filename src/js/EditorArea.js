@@ -3,51 +3,78 @@
  */
 
 import React, { useRef } from "react";
-import Editor, { useMonaco } from "@monaco-editor/react";
+import loader from "@monaco-editor/loader";
 
 const { ws } = require("./configSocket.js"); //get the ws connection initialized in configSocket.js
+
+//example codes for Monaco Editor
+const defaultExample = require("../examples/DefaultExample.js");
+const battery = require("../examples/Battery.js");
+const mappingExample = require("../examples/MappingExample.js");
+const recursionExample = require("../examples/RecursionExample.js");
+const sendMoreMoney = require("../examples/SendMoreMoney.js");
 
 //the main functionality of the text-editor
 function EditorArea() {
   //refer to https://github.com/suren-atoyan/monaco-react for docs on @monaco-editor/react
 
-  const editorRef = useRef(null);
+  //load monaco editor into the browser
+  loader.init().then((monaco) => {
+    const wrapper = document.getElementById("textEditor");
+    wrapper.style.height = "100%";
+    const properties = {
+      value: defaultExample.defaultExample(),
+      language: "json",
+    };
 
-  function handleEditorDidMount(editor, monaco) {
-    editorRef.current = editor;
-  }
+    //turn off validation for Monaco Editor
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: false,
+    });
+
+    window.editor = monaco.editor.create(wrapper, properties);
+  });
 
   //function to send text editor values to the server via WebSockets
   document.getElementById("loadFile").onclick = function () {
     var msg = {
       type: "editor",
-      text: editorRef.current.getValue(),
+      text: window.editor.getValue(),
     };
     ws.send(JSON.stringify(msg));
   };
 
-  //default code for the text editor
-  const formulaCode = `
-  domain Mapping
-  {
-    Component ::= new (id: Integer, utilization: Real).
-    Processor ::= new (id: Integer).
-    Mapping   ::= new (c: Component, p: Processor).
-  
-    badMapping :- p is Processor,
-          s = sum(0.0, { c.utilization |
-                     c is Component, Mapping(c, p) }), s > 100.
-  }`;
+  //change the default values in Monaco Editor based on the example code
+  // the user chooses
+  document.getElementById("battery").onclick = function () {
+    window.editor.setValue(battery.battery());
+  };
+
+  document.getElementById("mappingExample").onclick = function () {
+    window.editor.setValue(mappingExample.mappingExample());
+  };
+
+  document.getElementById("recursionExample").onclick = function () {
+    window.editor.setValue(recursionExample.recursionExample());
+  };
+
+  document.getElementById("sendMoreMoney").onclick = function () {
+    window.editor.setValue(sendMoreMoney.sendMoreMoney());
+  };
+
+  document.getElementById("defaultExample").onclick = function () {
+    window.editor.setValue(defaultExample.defaultExample());
+  };
+
+  //resize the text editor whenever the window is resized
+  addEventListener("resize", (event) => {
+    window.editor.layout();
+  });
 
   //return the html for the text editor
   return (
     <>
-      <Editor
-        height="90vh"
-        defaultLanguage="javascript"
-        defaultValue={formulaCode}
-        onMount={handleEditorDidMount}
-      />
+      <div id="textEditor"></div>
     </>
   );
 }

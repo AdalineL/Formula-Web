@@ -75,21 +75,48 @@ function TerminalArea() {
   //function for when ws receives a message from the server
   ws.onmessage = (event) => {
     const messages = JSON.parse(event.data);
-    //send to terminal if it is a 'result' type of messages
-    if (messages.type == "result") {
-      term.write(messages.text); //write the message to the terminal
-    } else {
-      document
-        .getElementById(errorLogs)
-        .appendChild(document.createTextNode(messages.text));
-    }
+    //write the result to Xterm.js
+    term.write(messages.text);
   };
 
   //return the html for the terminal area
   return (
     <>
-      <textarea id="errorLogs" placeholder="Errors will appear here"></textarea>
       <div id="terminal"></div>
+      <div id="commonCommands">
+        <h2>
+          <u>Common Commands</u>
+        </h2>
+        <p>
+          <b>Solving:</b>
+        </p>
+        <blockquote>
+          <code>
+            solve x = pm // Try to complete the partial model named pm
+          </code>
+        </blockquote>
+
+        <p>
+          <b>Queries:</b>
+        </p>
+        <blockquote>
+          <code>query m badMapping // Does model m have a badMapping?</code>
+        </blockquote>
+
+        <p>
+          <b>Display task status:</b>
+        </p>
+        <blockquote>
+          <code>list</code>
+        </blockquote>
+
+        <p>
+          <b>Proofs:</b>
+        </p>
+        <blockquote>
+          <code>pr 0 //Show a proof for task 0</code>
+        </blockquote>
+      </div>
     </>
   );
 }
