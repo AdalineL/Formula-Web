@@ -3,62 +3,37 @@
  */
 
 import React, { useRef } from "react";
-import Editor, { useMonaco } from "@monaco-editor/react";
 import loader from "@monaco-editor/loader";
-import * as Parser from "web-tree-sitter";
-import {
-  Language,
-  Theme,
-  MonacoTreeSitter,
-  highlight,
-} from "monaco-tree-sitter";
 
 const { ws } = require("./configSocket.js"); //get the ws connection initialized in configSocket.js
+
+//example codes for Monaco Editor
+const defaultExample = require("../examples/DefaultExample.js");
+const battery = require("../examples/Battery.js");
+const mappingExample = require("../examples/MappingExample.js");
+const recursionExample = require("../examples/RecursionExample.js");
+const sendMoreMoney = require("../examples/SendMoreMoney.js");
 
 //the main functionality of the text-editor
 function EditorArea() {
   //refer to https://github.com/suren-atoyan/monaco-react for docs on @monaco-editor/react
 
-  //default code for the text editor
-  const formulaCode = `
-  domain Mapping
-  {
-    Component ::= new (id: Integer, utilization: Real).
-    Processor ::= new (id: Integer).
-    Mapping   ::= new (c: Component, p: Processor).
-  
-    badMapping :- p is Processor,
-          s = sum(0.0, { c.utilization |
-                     c is Component, Mapping(c, p) }), s > 100.
-  }`;
-
   //load monaco editor into the browser
   loader.init().then((monaco) => {
-    loadTreeSitter();
     const wrapper = document.getElementById("textEditor");
     wrapper.style.height = "100%";
     const properties = {
-      value: formulaCode,
-      language: "javascript",
+      value: defaultExample.defaultExample(),
+      language: "json",
     };
+
+    //turn off validation for Monaco Editor
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: false,
+    });
 
     window.editor = monaco.editor.create(wrapper, properties);
   });
-
-  async function loadTreeSitter() {
-    Theme.load(require("./theme.json")); //"monaco-tree-sitter/themes/tomorrow")); //to use the 'tomorrow' theme
-
-    await Parser.init();
-    const parser = new Parser();
-    const Lang = await Parser.Language.load("./tree-sitter-formula.wasm");
-    parser.setLanguage(Lang);
-
-    const language = new Language(require("./grammar.json"));
-    await language.init(
-      "http://localhost:8080/tree-sitter-formula.wasm",
-      Parser
-    );
-  }
 
   //function to send text editor values to the server via WebSockets
   document.getElementById("loadFile").onclick = function () {
@@ -67,6 +42,28 @@ function EditorArea() {
       text: window.editor.getValue(),
     };
     ws.send(JSON.stringify(msg));
+  };
+
+  //change the default values in Monaco Editor based on the example code
+  // the user chooses
+  document.getElementById("battery").onclick = function () {
+    window.editor.setValue(battery.battery());
+  };
+
+  document.getElementById("mappingExample").onclick = function () {
+    window.editor.setValue(mappingExample.mappingExample());
+  };
+
+  document.getElementById("recursionExample").onclick = function () {
+    window.editor.setValue(recursionExample.recursionExample());
+  };
+
+  document.getElementById("sendMoreMoney").onclick = function () {
+    window.editor.setValue(sendMoreMoney.sendMoreMoney());
+  };
+
+  document.getElementById("defaultExample").onclick = function () {
+    window.editor.setValue(defaultExample.defaultExample());
   };
 
   //resize the text editor whenever the window is resized
