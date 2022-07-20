@@ -5,6 +5,7 @@
 import React, { useRef } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
+import useCollapse from "react-collapsed";
 
 const { ws } = require("./configSocket.js"); //get the ws connection initialized in configSocket.js
 
@@ -79,43 +80,51 @@ function TerminalArea() {
     term.write(messages.text);
   };
 
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
+
   //return the html for the terminal area
   return (
     <>
       <div id="terminal"></div>
-      <div id="commonCommands">
-        <h2>
-          <u>Common Commands</u>
-        </h2>
-        <p>
-          <b>Solving:</b>
-        </p>
-        <blockquote>
-          <code>
-            solve x = pm // Try to complete the partial model named pm
-          </code>
-        </blockquote>
+      <div className="collapsible">
+        <div className="header" {...getToggleProps()}>
+          <i className={"fas fa-angle-" + (isExpanded ? "down" : "right")}></i>{" "}
+          Common Commands
+        </div>
 
-        <p>
-          <b>Queries:</b>
-        </p>
-        <blockquote>
-          <code>query m badMapping // Does model m have a badMapping?</code>
-        </blockquote>
+        <div {...getCollapseProps()}>
+          <div className="content">
+            <p>
+              <b>Solving:</b>
+            </p>
+            <blockquote>
+              <code>
+                solve x = pm // Try to complete the partial model named pm
+              </code>
+            </blockquote>
 
-        <p>
-          <b>Display task status:</b>
-        </p>
-        <blockquote>
-          <code>list</code>
-        </blockquote>
+            <p>
+              <b>Queries:</b>
+            </p>
+            <blockquote>
+              <code>query m badMapping // Does model m have a badMapping?</code>
+            </blockquote>
 
-        <p>
-          <b>Proofs:</b>
-        </p>
-        <blockquote>
-          <code>pr 0 //Show a proof for task 0</code>
-        </blockquote>
+            <p>
+              <b>Display task status:</b>
+            </p>
+            <blockquote>
+              <code>list</code>
+            </blockquote>
+
+            <p>
+              <b>Proofs:</b>
+            </p>
+            <blockquote>
+              <code>pr 0 //Show a proof for task 0</code>
+            </blockquote>
+          </div>
+        </div>
       </div>
     </>
   );
