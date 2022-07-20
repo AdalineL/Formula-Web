@@ -64,7 +64,6 @@ function EditorArea() {
     }, 0);
   }
 
-  //function to send text editor values to the server via WebSockets (to initiate a
   // save of the current editor values to a .4ml file on the user's system)
   document.getElementById("save").onclick = function () {
     // Dynamically create a File
