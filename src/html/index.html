@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <title>React-Monaco-Tree-Sitter</title>
     <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="dropdown">
-        <button class="dropbtn">Examples</button>
+        <button title='Examples'class="grayBtns"><i class="fa fa-bars"></i></button>
         <div class="dropdown-content">
           <a href="#" id='defaultExample'>Default</a>
           <a href="#" id='battery'>Battery</a>
@@ -17,9 +18,8 @@
           <a href="#" id='sendMoreMoney'>Send More Money</a>
         </div>
       </div>
-    <button id="loadFile">
-        Load File
-    </button>
+      <button title='Save'class="grayBtns"id="save"><i class="fa fa-save"></i></button>
+    <button id="loadFile">Run ></button>
     <!-- this refers to the editor-area and terminal-area of the client side -->
     <div class="row">
         <div class="column" id="editor-area">

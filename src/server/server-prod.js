@@ -98,7 +98,6 @@ wss.on("connection", (ws, req) => {
       //send user command to formula-dotnet child process
       child.stdin.write(msg.text + "\n");
     }
-    // console.log(clients.get(ws).dir);
   });
   // fs.rmSync(clients.get(ws).dir + "/tmp_file.4ml");
 });
