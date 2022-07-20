@@ -44,6 +44,36 @@ function EditorArea() {
     ws.send(JSON.stringify(msg));
   };
 
+  function downloadFile(file) {
+    //from this source https://pqina.nl/blog/how-to-prompt-the-user-to-download-a-file-instead-of-navigating-to-it/
+    // Create a link and set the URL using `createObjectURL`
+    const link = document.createElement("a");
+    link.style.display = "none";
+    link.href = URL.createObjectURL(file);
+    link.download = file.name;
+
+    // It needs to be added to the DOM so it can be clicked
+    document.body.appendChild(link);
+    link.click();
+
+    // To make this work on Firefox we need to wait
+    // a little while before removing it.
+    setTimeout(() => {
+      URL.revokeObjectURL(link.href);
+      link.parentNode.removeChild(link);
+    }, 0);
+  }
+
+  //function to send text editor values to the server via WebSockets (to initiate a
+  // save of the current editor values to a .4ml file on the user's system)
+  document.getElementById("save").onclick = function () {
+    // Dynamically create a File
+    const myFile = new File([window.editor.getValue()], "formulaCode.4ml");
+
+    // Download it
+    downloadFile(myFile);
+  };
+
   //change the default values in Monaco Editor based on the example code
   // the user chooses
   document.getElementById("battery").onclick = function () {

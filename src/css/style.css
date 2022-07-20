@@ -39,50 +39,12 @@ body {
   right: 0;
 }
 
-/* 
-#loadFile {
-  background-color: #13aa52;
-  border: 1px solid #13aa52;
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  outline: none;
-  outline: 0;
-  padding: 10px 25px;
-  text-align: center;
-  transform: translateY(0);
-  transition: transform 150ms, box-shadow 150ms;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  margin-bottom:5px;
-}
-
-#loadFile:hover {
-  box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
-  transform: translateY(-2px);
-}
-
-@media (min-width: 768px) {
-  #loadFile {
-    padding: 10px 30px;
-  }
-} */
-
-
-
-
-.dropbtn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
+.grayBtns {
   border: none;
+  color: rgb(116, 116, 116);
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .dropdown {
@@ -110,15 +72,14 @@ body {
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.grayBtns:hover {
+  background-color: #949292;
+  color:white;
+}
 
 h2 {
   font-size: 30px;
 }
-
-/* p {
-  font-size: 18px;
-} */
 
 blockquote {
 font-size: 14px;
@@ -128,4 +89,21 @@ font-size: 14px;
   background-color: white;
   margin: 3 px;
   padding: 3px;
+}
+
+#loadFile {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  margin: 4px 2px;
+  border-radius: 4px; 
+}
+
+#loadFile:hover {
+  background-color: #037f51;
+  color:white;
 }
