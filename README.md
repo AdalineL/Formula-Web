@@ -1,4 +1,4 @@
-# react-monaco-tree-sitter
+# Formula-Texteditor
 Monaco Editor integrated with Tree-sitter using React and connected to an Express.js server using WebSockets
 
 # How to use
