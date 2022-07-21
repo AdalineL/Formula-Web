@@ -71,6 +71,8 @@
     bottom: 0;
 }
 
+.xterm-viewport { overflow: hidden !important; }
+
 .xterm .xterm-screen {
     position: relative;
 }
