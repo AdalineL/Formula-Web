@@ -125,6 +125,7 @@ body {
 }
 
 .collapsible .content {
+  border-radius: 7px;
   background: rgba(0, 105, 255, .2);
   border-bottom: 1px solid rgba(0, 105, 255, .45);
   border-bottom-left-radius: 7px;
