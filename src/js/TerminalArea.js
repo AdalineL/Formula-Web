@@ -53,6 +53,22 @@ term.onKey((key) => {
     term.write("\b \b");
     curr_input = curr_input.substring(0, curr_input - 2);
   }
+  //if 'left arrow' go back a character
+  else if (char == "ArrowLeft") {
+    term.write("\x1b[D");
+  }
+  //if 'right arrow' go forward a character
+  else if (char == "ArrowRight") {
+    term.write("\x1b[C");
+  }
+  //if 'up arrow' go up a line
+  else if (char == "ArrowUp") {
+    term.write("\x1b[A");
+  }
+  //if 'down arrow' go down a line
+  else if (char == "ArrowDown") {
+    term.write("\x1b[B");
+  }
   //else add char to both curr_input and terminal
   else {
     term.write(char);
