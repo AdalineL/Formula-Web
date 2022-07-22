@@ -8,7 +8,6 @@ import loader from "@monaco-editor/loader";
 const { ws } = require("./configSocket.js"); //get the ws connection initialized in configSocket.js
 
 //example codes for Monaco Editor
-const defaultExample = require("../examples/DefaultExample.js");
 const battery = require("../examples/Battery.js");
 const mappingExample = require("../examples/MappingExample.js");
 const recursionExample = require("../examples/RecursionExample.js");
@@ -23,7 +22,7 @@ function EditorArea() {
     const wrapper = document.getElementById("textEditor");
     wrapper.style.height = "100%";
     const properties = {
-      value: defaultExample.defaultExample(),
+      value: mappingExample.mappingExample(),
       language: "json",
     };
 
@@ -91,9 +90,14 @@ function EditorArea() {
     window.editor.setValue(sendMoreMoney.sendMoreMoney());
   };
 
-  document.getElementById("defaultExample").onclick = function () {
-    window.editor.setValue(defaultExample.defaultExample());
-  };
+  //Read the values inside the upload and display it in Monaco Editor
+  document.getElementById("file-input").addEventListener("change", function () {
+    var fr = new FileReader();
+    fr.onload = function () {
+      window.editor.setValue(fr.result);
+    };
+    fr.readAsText(this.files[0]);
+  });
 
   //resize the text editor whenever the window is resized
   addEventListener("resize", (event) => {

@@ -102,45 +102,37 @@ function TerminalArea() {
   return (
     <>
       <div id="terminal"></div>
-      <div className="collapsible">
-        <div className="header" {...getToggleProps()}>
-          <i className={"fas fa-angle-" + (isExpanded ? "down" : "right")}></i>{" "}
-          Common Commands
-        </div>
+      <div class="header">Common Commands</div>
+      <div class="content">
+        <p>
+          <b>Solving:</b>
+        </p>
+        <blockquote>
+          <code>
+            solve x = pm // Try to complete the partial model named pm
+          </code>
+        </blockquote>
 
-        <div {...getCollapseProps()}>
-          <div className="content">
-            <p>
-              <b>Solving:</b>
-            </p>
-            <blockquote>
-              <code>
-                solve x = pm // Try to complete the partial model named pm
-              </code>
-            </blockquote>
+        <p>
+          <b>Queries:</b>
+        </p>
+        <blockquote>
+          <code>query m badMapping // Does model m have a badMapping?</code>
+        </blockquote>
 
-            <p>
-              <b>Queries:</b>
-            </p>
-            <blockquote>
-              <code>query m badMapping // Does model m have a badMapping?</code>
-            </blockquote>
+        <p>
+          <b>Display task status:</b>
+        </p>
+        <blockquote>
+          <code>list</code>
+        </blockquote>
 
-            <p>
-              <b>Display task status:</b>
-            </p>
-            <blockquote>
-              <code>list</code>
-            </blockquote>
-
-            <p>
-              <b>Proofs:</b>
-            </p>
-            <blockquote>
-              <code>pr 0 //Show a proof for task 0</code>
-            </blockquote>
-          </div>
-        </div>
+        <p>
+          <b>Proofs:</b>
+        </p>
+        <blockquote>
+          <code>pr 0 //Show a proof for task 0</code>
+        </blockquote>
       </div>
     </>
   );

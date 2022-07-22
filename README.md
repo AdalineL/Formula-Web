@@ -10,3 +10,4 @@ open http://localhost:8080/ in your browser.
 # References
 * [rexpack](https://github.com/bengrunfeld/rexpack)
 * [@monaco-editor/react](https://github.com/suren-atoyan/monaco-react)
+* [Xterm.js](https://github.com/xtermjs/xterm.js/)

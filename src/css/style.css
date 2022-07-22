@@ -34,6 +34,11 @@ body {
 }
 
 /* CSS for icons */
+.regBtns {
+  position: relative;
+  display: inline-block;
+}
+
 .grayBtns {
   border: none;
   color: rgb(116, 116, 116);
@@ -99,46 +104,32 @@ body {
 
 .dropdown:hover .dropdown-content {display: block;}
 
-/* CSS for Common Commands collapsible */
-.collapsible {
+/* CSS for file upload */
+input[type="file"] {
+  display: none;
+}
+
+/* CSS for Common Commands */
+.header {
+  margin-top:4px;
   margin-left:10px;
-  transition: max-height .25s ease-in-out;
-}
-
-.collapsible .header {
-  display: block;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 1.2rem;
-  text-transform: uppercase;
   text-align: center;
-  padding: 1rem;
-  color: #DDD;
-  background: #0069ff;
-  cursor: pointer;
-  border-radius: 7px;
-  transition: all 0.25s ease-out;
+  color: white;
+  background: #04AA6D;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 4px; 
 }
 
-.collapsible .header:hover {
-  color: #FFF;
-}
-
-.collapsible .content {
-  border-radius: 7px;
-  background: rgba(0, 105, 255, .2);
-  border-bottom: 1px solid rgba(0, 105, 255, .45);
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
-  padding: .5rem 1rem;
-  max-height:250px;
-  overflow-y: scroll;
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.collapsible .content::-webkit-scrollbar { 
-  display: none;  /* Safari and Chrome */
+.content {
+  margin-left:10px;
+  color: white;
+  background: #76b8a0;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 4px; 
 }
 
 blockquote {
