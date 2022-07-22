@@ -133,6 +133,13 @@ function TerminalArea() {
         <blockquote>
           <code>pr 0 //Show a proof for task 0</code>
         </blockquote>
+
+        <p>
+          <b>Help:</b>
+        </p>
+        <blockquote>
+          <code>help //displays available commands</code>
+        </blockquote>
       </div>
     </>
   );

@@ -123,15 +123,23 @@ input[type="file"] {
 }
 
 .content {
+  max-height: 150px;
+  overflow-y: scroll;
   margin-left:10px;
   color: white;
-  background: #76b8a0;
+  background: #99b0a8;
   border: none;
   padding: 10px 25px;
   font-size: 16px;
   border-radius: 4px; 
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
 }
 
-blockquote {
+.content::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+.content {
   font-size: 14px;
 }
