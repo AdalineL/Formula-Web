@@ -9,18 +9,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
+    <!-- This contains the buttons on the top left -->
     <div class="dropdown">
         <button title='Examples'class="grayBtns"><i class="fa fa-bars"></i></button>
         <div class="dropdown-content">
-          <a href="#" id='defaultExample'>Default</a>
           <a href="#" id='battery'>Battery</a>
           <a href="#" id='mappingExample'>Mapping Example</a>
           <a href="#" id='recursionExample'>Recursion Example</a>
           <a href="#" id='sendMoreMoney'>Send More Money</a>
         </div>
-      </div>
+    </div>
+    
+    <!-- <div class="regBtns">
+      <button title='Upload'class="grayBtns"id="upload"><i class="fa fa-upload"></i></button>
+    </div> -->
+
+    <div class="regBtns">
+        <button title='Upload'class="grayBtns"id="upload">
+          <label for="file-input" class="grayBtns">
+            <i class="fa fa-upload"></i>
+          </label>
+          <input id="file-input" type="file" accept=".txt,.4ml"/>
+        </button>
+    </div>
+
+    <div class="regBtns">
       <button title='Save'class="grayBtns"id="save"><i class="fa fa-save"></i></button>
-    <button id="loadFile">Run ></button>
+    </div>
+
+    <button id="loadFile">Load ></button>
+
     <!-- this refers to the editor-area and terminal-area of the client side -->
     <div class="row">
         <div class="column" id="editor-area">
