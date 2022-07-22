@@ -3,7 +3,11 @@
  */
 
 const sendMoreMoney = () => {
-  return `domain Money
+  return `// can you find a solution to the classic puzzle:
+//   SEND
+// + MORE
+// = MONEY
+domain Money
 {
 	Send ::= new (s: Integer, e: Integer, n: Integer, d: Integer).
 	More ::= new (m: Integer, o: Integer, r: Integer, e: Integer).
